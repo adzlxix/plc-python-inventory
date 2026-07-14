@@ -1,0 +1,266 @@
+/**
+ * PLC Costs Sheet Rebuilder (reads from Sheets, not CSV)
+ *
+ * Layout (Costs sheet):
+ * - A:B = ItemCode, UnitCost  (lookup table for raw materials + finished goods unit cost per UNIT)
+ * - D:K = Production Inventory block (values only; formatting preserved)
+ * - L   = blank spacer column (left empty)
+ * - M:U = Finished Goods block (values only; formatting preserved)
+ * - X:Y = ProductCode, UnitsPerPallet (lookup table for finished goods)
+ *
+ * Requirements:
+ * - Finished goods entries are ledger-style (+/-). We NET-SUM by ProductCode.
+ * - If net pallets <= 0, do not display the product.
+ * - Do not change formatting: use clearContent() + setValues().
+ */
+
+function updateCostsSheet() {
+  const SS = SpreadsheetApp.getActive();
+  const COSTS_SHEET_NAME = 'Costs';
+
+  // Change these sheet names ONLY if your tabs are named differently:
+  const PROD_INV_SHEET_NAME = 'Production Inventory';
+  const FG_SHEET_NAME = 'Finished Goods';
+
+  const costs = SS.getSheetByName(COSTS_SHEET_NAME);
+  const prodInv = SS.getSheetByName(PROD_INV_SHEET_NAME);
+  const fg = SS.getSheetByName(FG_SHEET_NAME);
+
+  if (!costs) throw new Error('Missing sheet: ' + COSTS_SHEET_NAME);
+  if (!prodInv) throw new Error('Missing sheet: ' + PROD_INV_SHEET_NAME);
+  if (!fg) throw new Error('Missing sheet: ' + FG_SHEET_NAME);
+
+  // --- Lookups (Costs sheet) ---
+  // A:B = ItemCode, UnitCost
+  const itemCostMap = build2ColMap_(costs, 1, 2, 2); // start row 2
+  // X:Y = ProductCode, UnitsPerPallet
+  const unitsPerPalletMap = build2ColMap_(costs, 24, 25, 2); // X=24, Y=25
+
+  // --- Read Production Inventory (from its own sheet) ---
+  // Expected headers in Production Inventory tab:
+  // Component, ComponentCode, ComponentType, Quantity, DateReceived, Notes, LeadTimeDays, MaxCapacity, SafetyFactor
+  const prodRows = readSheetRowsByHeaders_(prodInv, [
+    'Component',
+    'ComponentCode',
+    'ComponentType',
+    'Quantity'
+  ]);
+
+  // Build production output rows for Costs D:K
+  // D Component, E ComponentCode, F ComponentType, G Quantity, H UnitCost, I ExtendedCost, J Source, K Validation
+  const prodOut = [];
+  for (let i = 0; i < prodRows.length; i++) {
+    const r = prodRows[i];
+    const component = asText_(r.Component);
+    const code = asText_(r.ComponentCode);
+    const ctype = asText_(r.ComponentType);
+    const qty = asNumber_(r.Quantity);
+
+    const unitCost = asNumber_(itemCostMap.get(code));
+    const extCost = (isFinite(unitCost) ? unitCost : 0) * (isFinite(qty) ? qty : 0);
+
+    const source = 'ProductionInventory';
+    const validation = validateProdRow_(code, qty, unitCost);
+
+    prodOut.push([
+      component,
+      code,
+      ctype,
+      qty,
+      unitCost === null ? '' : unitCost,
+      (unitCost === null || qty === null) ? '' : extCost,
+      source,
+      validation
+    ]);
+  }
+
+  // --- Read Finished Goods (from its own sheet) ---
+  // Expected headers in Finished Goods tab:
+  // RecordID, EntryType, RefRecordID, Timestamp, Date, Product, ProductCode, Line, QtyPallets, EnteredBy, Notes
+  const fgRows = readSheetRowsByHeaders_(fg, [
+    'Date',
+    'Product',
+    'ProductCode',
+    'QtyPallets'
+  ]);
+
+  // Net-sum QtyPallets by ProductCode, keep latest date/name
+  const fgAgg = new Map(); // code -> {product, netPallets, latestDate}
+  for (let i = 0; i < fgRows.length; i++) {
+    const code = asText_(fgRows[i].ProductCode);
+    if (!code) continue;
+
+    const pallets = asNumber_(fgRows[i].QtyPallets) || 0;
+    const product = asText_(fgRows[i].Product);
+    const dateVal = fgRows[i].Date; // may be Date object or string
+
+    const cur = fgAgg.get(code) || { product: product, netPallets: 0, latestDate: null };
+    cur.netPallets += pallets;
+
+    // keep a product name if we have one
+    if (!cur.product && product) cur.product = product;
+
+    // track latest date (best-effort)
+    const d = toDate_(dateVal);
+    if (d && (!cur.latestDate || d.getTime() > cur.latestDate.getTime())) {
+      cur.latestDate = d;
+      if (product) cur.product = product; // prefer product name from latest entry
+    }
+    fgAgg.set(code, cur);
+  }
+
+  // Build FG output rows (Costs M:U)
+  // ProductCode, Product, QtyPallets, Date, UnitsPerPallet, UnitCost, ExtendedCost, Source, Validation
+  const fgOut = [];
+  const fgCodes = Array.from(fgAgg.keys()).sort();
+  for (let i = 0; i < fgCodes.length; i++) {
+    const code = fgCodes[i];
+    const cur = fgAgg.get(code);
+    const netPallets = cur.netPallets;
+
+    // Only show positive net pallets
+    if (!(netPallets > 0)) continue;
+
+    const unitsPerPallet = asNumber_(unitsPerPalletMap.get(code));
+    const unitCostPerUnit = asNumber_(itemCostMap.get(code));
+
+    // Finished goods costs:
+    // UnitCost shown = cost per pallet = unitsPerPallet * unitCostPerUnit
+    // ExtendedCost = netPallets * unitsPerPallet * unitCostPerUnit
+    let palletUnitCost = null;
+    let extCost = null;
+    if (unitsPerPallet !== null && unitCostPerUnit !== null) {
+      palletUnitCost = unitsPerPallet * unitCostPerUnit;
+      extCost = netPallets * unitsPerPallet * unitCostPerUnit;
+    }
+
+    const source = 'FinishedGoods';
+    const dateOut = cur.latestDate ? cur.latestDate : '';
+    const validation = validateFgRow_(code, netPallets, unitsPerPallet, unitCostPerUnit);
+
+    fgOut.push([
+      code,
+      cur.product || '',
+      String(netPallets),
+      dateOut,
+      unitsPerPallet === null ? '' : unitsPerPallet,
+      palletUnitCost === null ? '' : palletUnitCost,
+      extCost === null ? '' : extCost,
+      source,
+      validation
+    ]);
+  }
+
+  // --- Write outputs without changing formatting ---
+  // D:K (8 columns)
+  writeBlockPreserveFormat_(costs, 4, 8, prodOut);
+  // Leave column L empty on purpose (no write)
+  // M:U (9 columns)
+  writeBlockPreserveFormat_(costs, 13, 9, fgOut);
+
+  SpreadsheetApp.flush();
+}
+
+
+/* =========================
+   Helpers
+   ========================= */
+
+function build2ColMap_(sheet, keyCol, valCol, startRow) {
+  const lastRow = sheet.getLastRow();
+  if (lastRow < startRow) return new Map();
+
+  const numRows = lastRow - startRow + 1;
+  const minCol = Math.min(keyCol, valCol);
+  const maxCol = Math.max(keyCol, valCol);
+  const rng = sheet.getRange(startRow, minCol, numRows, maxCol - minCol + 1);
+  const values = rng.getValues();
+
+  const map = new Map();
+  for (let i = 0; i < values.length; i++) {
+    const row = values[i];
+    const key = asText_(row[keyCol - minCol]);
+    const val = row[valCol - minCol];
+
+    if (!key) continue;
+    const n = asNumber_(val);
+    map.set(key, n === null ? val : n);
+  }
+  return map;
+}
+
+function readSheetRowsByHeaders_(sheet, neededHeaders) {
+  const data = sheet.getDataRange().getValues();
+  if (data.length < 2) return [];
+
+  const headers = data[0].map(h => String(h).trim());
+  const idx = {};
+  headers.forEach((h, i) => { idx[h] = i; });
+
+  neededHeaders.forEach(h => {
+    if (!(h in idx)) throw new Error('Missing header "' + h + '" in sheet: ' + sheet.getName());
+  });
+
+  const out = [];
+  for (let r = 1; r < data.length; r++) {
+    const row = data[r];
+    if (row.every(v => v === '' || v === null)) continue;
+
+    const obj = {};
+    neededHeaders.forEach(h => obj[h] = row[idx[h]]);
+    out.push(obj);
+  }
+  return out;
+}
+
+function writeBlockPreserveFormat_(sheet, startCol, numCols, rows) {
+  const startRow = 2; // keep header row 1 intact
+  const lastRow = sheet.getLastRow();
+  const rowsToClear = Math.max(lastRow - 1, 1);
+
+  // Clear values only (keeps formatting)
+  sheet.getRange(startRow, startCol, rowsToClear, numCols).clearContent();
+
+  if (!rows || rows.length === 0) return;
+  sheet.getRange(startRow, startCol, rows.length, numCols).setValues(rows);
+}
+
+function validateProdRow_(code, qty, unitCost) {
+  const issues = [];
+  if (!code) issues.push('MissingCode');
+  if (qty === null) issues.push('BadQty');
+  if (unitCost === null) issues.push('MissingUnitCost');
+  return issues.length ? ('WARN:' + issues.join(',')) : 'OK';
+}
+
+function validateFgRow_(code, pallets, unitsPerPallet, unitCostPerUnit) {
+  const issues = [];
+  if (!code) issues.push('MissingCode');
+  if (!(pallets > 0)) issues.push('NonPositivePallets');
+  if (unitsPerPallet === null) issues.push('MissingUnitsPerPallet');
+  if (unitCostPerUnit === null) issues.push('MissingUnitCost');
+  return issues.length ? ('WARN:' + issues.join(',')) : 'OK';
+}
+
+function asText_(v) {
+  if (v === null || v === undefined) return '';
+  const s = String(v).trim();
+  return (s.toLowerCase() === 'nan') ? '' : s;
+}
+
+function asNumber_(v) {
+  if (v === null || v === '' || v === undefined) return null;
+  if (typeof v === 'number') return isFinite(v) ? v : null;
+  const s = String(v).replace(/,/g, '').trim();
+  if (!s) return null;
+  const n = Number(s);
+  return isFinite(n) ? n : null;
+}
+
+function toDate_(v) {
+  if (!v) return null;
+  if (Object.prototype.toString.call(v) === '[object Date]') return isNaN(v.getTime()) ? null : v;
+  const s = String(v).trim();
+  const d = new Date(s);
+  return isNaN(d.getTime()) ? null : d;
+}

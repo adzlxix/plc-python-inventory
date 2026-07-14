@@ -1,0 +1,164 @@
+/***** CONFIG *****/
+
+const GITHUB_OWNER = "adzlxix";
+const GITHUB_REPO = "PLC";
+const GITHUB_BRANCH = "latestmain";
+
+// Paste your GitHub token here
+const GITHUB_TOKEN = "";
+
+// Sheet tab name → GitHub CSV file
+const CSV_SOURCES = {
+  "Production Inventory": "INV-01.csv",
+  "Finished Goods": "FG-01.csv",
+  "RM-BAL-01": "RM-BAL-01.csv",
+};
+
+/***** MAIN *****/
+
+function updateAllSheetsFromGitHubCSVs() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const errors = [];
+
+  Object.entries(CSV_SOURCES).forEach(([sheetName, filePath]) => {
+    try {
+      const sheet = ss.getSheetByName(sheetName) || ss.insertSheet(sheetName);
+      updateOneSheetFromGitHubFile_(sheet, filePath);
+      Logger.log(`UPDATED: ${sheetName} from ${filePath}`);
+    } catch (err) {
+      const msg = `${sheetName} / ${filePath}: ${err.message}`;
+      errors.push(msg);
+      Logger.log(`FAILED: ${msg}`);
+    }
+  });
+
+  if (errors.length > 0) {
+    throw new Error("Some CSVs failed:\n\n" + errors.join("\n"));
+  }
+}
+
+function updateOneSheetFromGitHubFile_(sheet, filePath) {
+  const csvText = fetchCsvFromGitHub_(filePath);
+  let valuesRaw = Utilities.parseCsv(csvText);
+
+  if (!valuesRaw || valuesRaw.length === 0) {
+    Logger.log(`SKIPPED EMPTY CSV: ${filePath}`);
+    return;
+  }
+
+  // Remove Notes column from RM-BAL-01 only
+  if (filePath === "RM-BAL-01.csv") {
+    valuesRaw = removeColumnByHeader_(valuesRaw, "Notes");
+  }
+
+  const numRows = valuesRaw.length;
+  const numCols = Math.max(...valuesRaw.map(r => r.length), 1);
+
+  const values = valuesRaw.map(row => {
+    const padded = row.slice();
+    while (padded.length < numCols) padded.push("");
+    return padded;
+  });
+
+  if (sheet.getMaxRows() < numRows) {
+    sheet.insertRowsAfter(sheet.getMaxRows(), numRows - sheet.getMaxRows());
+  }
+
+  if (sheet.getMaxColumns() < numCols) {
+    sheet.insertColumnsAfter(sheet.getMaxColumns(), numCols - sheet.getMaxColumns());
+  }
+
+  const lastRow = Math.max(sheet.getLastRow(), 1);
+  const lastCol = Math.max(sheet.getLastColumn(), 1);
+
+  sheet.getRange(1, 1, lastRow, lastCol).clearContent();
+
+  sheet.getRange(1, 1, numRows, numCols).setValues(values);
+  sheet.getRange(1, 1, 1, numCols).setFontWeight("bold");
+  sheet.autoResizeColumns(1, numCols);
+}
+
+/***** HELPERS *****/
+
+function removeColumnByHeader_(values, headerName) {
+  if (!values || values.length === 0) return values;
+
+  const headers = values[0].map(h => String(h).trim());
+  const index = headers.indexOf(headerName);
+
+  if (index === -1) return values;
+
+  return values.map(row => row.filter((_, i) => i !== index));
+}
+
+/***** GITHUB FETCH *****/
+
+function fetchCsvFromGitHub_(filePath) {
+  if (!GITHUB_TOKEN || !GITHUB_TOKEN.trim()) {
+    throw new Error("GITHUB_TOKEN is empty. Add a valid GitHub token.");
+  }
+
+  const encodedPath = filePath
+    .split("/")
+    .map(part => encodeURIComponent(part))
+    .join("/");
+
+  const url =
+    `https://api.github.com/repos/${encodeURIComponent(GITHUB_OWNER)}` +
+    `/${encodeURIComponent(GITHUB_REPO)}/contents/${encodedPath}` +
+    `?ref=${encodeURIComponent(GITHUB_BRANCH)}`;
+
+  const resp = UrlFetchApp.fetch(url, {
+    method: "get",
+    headers: {
+      "Authorization": "Bearer " + GITHUB_TOKEN.trim(),
+      "Accept": "application/vnd.github.raw",
+      "X-GitHub-Api-Version": "2022-11-28"
+    },
+    muteHttpExceptions: true,
+  });
+
+  const code = resp.getResponseCode();
+  const body = resp.getContentText();
+
+  if (code !== 200) {
+    throw new Error(
+      `Failed to fetch GitHub file (${code})\n` +
+      `File: ${filePath}\n` +
+      `URL: ${url}\n` +
+      `Response: ${body.slice(0, 500)}`
+    );
+  }
+
+  return body;
+}
+
+/***** TEST FUNCTIONS *****/
+
+function testFetch_INV01() {
+  const csv = fetchCsvFromGitHub_("INV-01.csv");
+  Logger.log(csv.slice(0, 1000));
+}
+
+function testFetch_FG01() {
+  const csv = fetchCsvFromGitHub_("FG-01.csv");
+  Logger.log(csv.slice(0, 1000));
+}
+
+function testFetch_RMBAL01() {
+  const csv = fetchCsvFromGitHub_("RM-BAL-01.csv");
+  Logger.log(csv.slice(0, 1000));
+}
+
+/***** OPTIONAL TRIGGER *****/
+
+function createTimeTrigger_every5Min() {
+  ScriptApp.getProjectTriggers()
+    .filter(t => t.getHandlerFunction() === "updateAllSheetsFromGitHubCSVs")
+    .forEach(t => ScriptApp.deleteTrigger(t));
+
+  ScriptApp.newTrigger("updateAllSheetsFromGitHubCSVs")
+    .timeBased()
+    .everyMinutes(5)
+    .create();
+}

@@ -1,0 +1,277 @@
+/**
+ * PLC Costs Sheet Rebuilder (self-contained, no external helpers)
+ *
+ * Reads:
+ *  - Production Inventory
+ *  - Finished Goods
+ *
+ * Lookups (Key sheet):
+ *  - A:B = ItemCode, UnitCost
+ *  - D:E = ProductCode, UnitsPerPallet
+ *
+ * Outputs:
+ *  - Production-Costs: A:H (starting row 2)
+ *  - FG-Costs: A:I (starting row 2)
+ *
+ * Formatting preserved: clearContent() + setValues()
+ */
+
+function updateCostsSheet() {
+  const SS = SpreadsheetApp.getActive();
+
+  // ---- Sheet names (only change if your tab names differ) ----
+  const PROD_INV_SHEET_NAME = 'Production Inventory';
+  const FG_SHEET_NAME = 'Finished Goods';
+  const KEY_SHEET_NAME = 'Key';
+
+  const PROD_COSTS_SHEET_NAME = 'Production-Costs';
+  const FG_COSTS_SHEET_NAME = 'FG-Costs';
+
+  const prodInv = SS.getSheetByName(PROD_INV_SHEET_NAME);
+  const fg = SS.getSheetByName(FG_SHEET_NAME);
+  const key = SS.getSheetByName(KEY_SHEET_NAME);
+
+  const prodCostsOut = SS.getSheetByName(PROD_COSTS_SHEET_NAME);
+  const fgCostsOut = SS.getSheetByName(FG_COSTS_SHEET_NAME);
+
+  if (!prodInv) throw new Error('Missing sheet: ' + PROD_INV_SHEET_NAME);
+  if (!fg) throw new Error('Missing sheet: ' + FG_SHEET_NAME);
+  if (!key) throw new Error('Missing sheet: ' + KEY_SHEET_NAME);
+  if (!prodCostsOut) throw new Error('Missing sheet: ' + PROD_COSTS_SHEET_NAME);
+  if (!fgCostsOut) throw new Error('Missing sheet: ' + FG_COSTS_SHEET_NAME);
+
+  // =========================
+  // Local helpers (scoped here so you still only have “two scripts”)
+  // =========================
+
+  // ✅ Normalizes codes to be case-insensitive + removes common hidden chars
+  function asText(v) {
+    if (v === null || v === undefined) return '';
+    const s = String(v)
+      .replace(/\u00A0/g, ' ')     // NBSP -> space
+      .replace(/[\r\n\t]/g, ' ')   // newlines/tabs -> space
+      .replace(/[–—]/g, '-')       // en/em dash -> hyphen
+      .trim();
+    if (!s) return '';
+    return (s.toLowerCase() === 'nan') ? '' : s.toUpperCase();
+  }
+
+  function asNumber(v) {
+    if (v === null || v === '' || v === undefined) return null;
+    if (typeof v === 'number') return isFinite(v) ? v : null;
+    const s = String(v).replace(/,/g, '').trim();
+    if (!s) return null;
+    const n = Number(s);
+    return isFinite(n) ? n : null;
+  }
+
+  function toDate(v) {
+    if (!v) return null;
+    if (Object.prototype.toString.call(v) === '[object Date]') {
+      return isNaN(v.getTime()) ? null : v;
+    }
+    const s = String(v).trim();
+    const d = new Date(s);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  function build2ColMap(sheet, keyCol, valCol, startRow) {
+    const lastRow = sheet.getLastRow();
+    if (lastRow < startRow) return new Map();
+
+    const numRows = lastRow - startRow + 1;
+    const minCol = Math.min(keyCol, valCol);
+    const maxCol = Math.max(keyCol, valCol);
+
+    const rng = sheet.getRange(startRow, minCol, numRows, maxCol - minCol + 1);
+    const values = rng.getValues();
+
+    const map = new Map();
+    for (let i = 0; i < values.length; i++) {
+      const row = values[i];
+      const k = asText(row[keyCol - minCol]);
+      const val = row[valCol - minCol];
+      if (!k) continue;
+
+      const n = asNumber(val);
+      map.set(k, n === null ? val : n);
+    }
+    return map;
+  }
+
+  function readSheetRowsByHeaders(sheet, neededHeaders) {
+    const data = sheet.getDataRange().getValues();
+    if (data.length < 2) return [];
+
+    const headers = data[0].map(h => String(h).trim());
+    const idx = {};
+    headers.forEach((h, i) => { idx[h] = i; });
+
+    neededHeaders.forEach(h => {
+      if (!(h in idx)) throw new Error('Missing header "' + h + '" in sheet: ' + sheet.getName());
+    });
+
+    const out = [];
+    for (let r = 1; r < data.length; r++) {
+      const row = data[r];
+      if (row.every(v => v === '' || v === null)) continue;
+
+      const obj = {};
+      neededHeaders.forEach(h => obj[h] = row[idx[h]]);
+      out.push(obj);
+    }
+    return out;
+  }
+
+  function validateProdRow(code, qty, unitCost) {
+    const issues = [];
+    if (!code) issues.push('MissingCode');
+    if (qty === null) issues.push('BadQty');
+    if (unitCost === null) issues.push('MissingUnitCost');
+    return issues.length ? ('WARN:' + issues.join(',')) : 'OK';
+  }
+
+  function validateFgRow(code, pallets, unitsPerPallet, unitCostPerUnit) {
+    const issues = [];
+    if (!code) issues.push('MissingCode');
+    if (!(pallets > 0)) issues.push('NonPositivePallets');
+    if (unitsPerPallet === null) issues.push('MissingUnitsPerPallet');
+    if (unitCostPerUnit === null) issues.push('MissingUnitCost');
+    return issues.length ? ('WARN:' + issues.join(',')) : 'OK';
+  }
+
+  function writeBlockPreserveFormat(sheet, startCol, numCols, rows) {
+    const startRow = 2; // keep header row 1 intact
+    const lastRow = sheet.getLastRow();
+    const rowsToClear = Math.max(lastRow - 1, 1);
+
+    sheet.getRange(startRow, startCol, rowsToClear, numCols).clearContent();
+
+    if (!rows || rows.length === 0) return;
+    sheet.getRange(startRow, startCol, rows.length, numCols).setValues(rows);
+  }
+
+  // =========================
+  // Lookups (Key sheet)
+  // =========================
+  // A:B = ItemCode, UnitCost
+  const itemCostMap = build2ColMap(key, 1, 2, 2);
+  // D:E = ProductCode, UnitsPerPallet
+  const unitsPerPalletMap = build2ColMap(key, 4, 5, 2);
+
+  // =========================
+  // Production Inventory output
+  // =========================
+  const prodRows = readSheetRowsByHeaders(prodInv, [
+    'Component',
+    'ComponentCode',
+    'ComponentType',
+    'Quantity'
+  ]);
+
+  // 8 columns: Component, Code, Type, Qty, UnitCost, ExtCost, Source, Validation
+  const prodOut = [];
+  for (let i = 0; i < prodRows.length; i++) {
+    const r = prodRows[i];
+    const component = String(r.Component ?? '').trim();  // keep original display (don’t force caps)
+    const code = asText(r.ComponentCode);                // normalized for lookup
+    const ctype = String(r.ComponentType ?? '').trim();  // keep original display
+    const qty = asNumber(r.Quantity);
+
+    const unitCost = asNumber(itemCostMap.get(code));
+    const extCost = (isFinite(unitCost) ? unitCost : 0) * (isFinite(qty) ? qty : 0);
+
+    const source = 'ProductionInventory';
+    const validation = validateProdRow(code, qty, unitCost);
+
+    // Display code in normalized form (consistent). If you prefer original casing, tell me.
+    prodOut.push([
+      component,
+      code,
+      ctype,
+      qty,
+      unitCost === null ? '' : unitCost,
+      (unitCost === null || qty === null) ? '' : extCost,
+      source,
+      validation
+    ]);
+  }
+
+  // =========================
+  // Finished Goods output
+  // =========================
+  const fgRows = readSheetRowsByHeaders(fg, [
+    'Date',
+    'Product',
+    'ProductCode',
+    'QtyPallets'
+  ]);
+
+  // Net-sum QtyPallets by ProductCode, keep latest date/name
+  const fgAgg = new Map(); // code -> {product, netPallets, latestDate}
+  for (let i = 0; i < fgRows.length; i++) {
+    const code = asText(fgRows[i].ProductCode); // normalized
+    if (!code) continue;
+
+    const pallets = asNumber(fgRows[i].QtyPallets) || 0;
+    const product = String(fgRows[i].Product ?? '').trim();
+    const dateVal = fgRows[i].Date;
+
+    const cur = fgAgg.get(code) || { product: product, netPallets: 0, latestDate: null };
+    cur.netPallets += pallets;
+
+    if (!cur.product && product) cur.product = product;
+
+    const d = toDate(dateVal);
+    if (d && (!cur.latestDate || d.getTime() > cur.latestDate.getTime())) {
+      cur.latestDate = d;
+      if (product) cur.product = product;
+    }
+    fgAgg.set(code, cur);
+  }
+
+  // 9 columns: Code, Product, NetPallets, Date, UnitsPerPallet, PalletUnitCost, ExtCost, Source, Validation
+  const fgOut = [];
+  const fgCodes = Array.from(fgAgg.keys()).sort();
+  for (let i = 0; i < fgCodes.length; i++) {
+    const code = fgCodes[i];
+    const cur = fgAgg.get(code);
+    const netPallets = cur.netPallets;
+
+    if (!(netPallets > 0)) continue;
+
+    const unitsPerPallet = asNumber(unitsPerPalletMap.get(code));
+    const unitCostPerUnit = asNumber(itemCostMap.get(code));
+
+    let palletUnitCost = null;
+    let extCost = null;
+    if (unitsPerPallet !== null && unitCostPerUnit !== null) {
+      palletUnitCost = unitsPerPallet * unitCostPerUnit;
+      extCost = netPallets * unitsPerPallet * unitCostPerUnit;
+    }
+
+    const source = 'FinishedGoods';
+    const dateOut = cur.latestDate ? cur.latestDate : '';
+    const validation = validateFgRow(code, netPallets, unitsPerPallet, unitCostPerUnit);
+
+    fgOut.push([
+      code,
+      cur.product || '',
+      String(netPallets),
+      dateOut,
+      unitsPerPallet === null ? '' : unitsPerPallet,
+      palletUnitCost === null ? '' : palletUnitCost,
+      extCost === null ? '' : extCost,
+      source,
+      validation
+    ]);
+  }
+
+  // =========================
+  // Write outputs (new sheets, start at column A)
+  // =========================
+  writeBlockPreserveFormat(prodCostsOut, 1, 8, prodOut); // A:H
+  writeBlockPreserveFormat(fgCostsOut, 1, 9, fgOut);     // A:I
+
+  SpreadsheetApp.flush();
+}
