@@ -2504,3 +2504,96 @@ Timestamp,Component,ComponentCode,ChangeType,DeltaQty,NewQty,Reference,Notes
 2026-06-16 10:11:35,BugX Label,LBL-45956,RCV-01,54000.0,54000.0,"Supplier=Imperial, Batch=",
 2026-06-16 10:12:23,Resolute +32 Bug Wash Label,RES+32F,RCV-01,54000.0,54000.0,"Supplier=, Batch=",
 2026-06-16 10:12:49,BugX Label,LBL-45956,RCV-01,30000.0,84000.0,"Supplier=, Batch=",
+2026-07-14 03:00:48,Clear F Style Bottle,BOT-F-NAT,production_consume,-5627.232,8292.768,PROD572-OTRWWSHDEICER1G-26187,Line 1 – OTR -25 W/Wash
+2026-07-14 03:00:48,OTR -25 Front Label,LBL-52086-F,production_consume,-5756.4,405243.6,PROD572-OTRWWSHDEICER1G-26187,Line 1 – OTR -25 W/Wash
+2026-07-14 03:00:48,OTR -25 Back Label,LBL-52086-B,production_consume,-5756.4,462243.6,PROD572-OTRWWSHDEICER1G-26187,Line 1 – OTR -25 W/Wash
+2026-07-14 03:00:48,White Cap,CAP-WH,production_consume,-5627.232,383888.768,PROD572-OTRWWSHDEICER1G-26187,Line 1 – OTR -25 W/Wash
+2026-07-14 03:00:49,F Style Blank Box,BOX-FSTYLEBLANK,production_consume,-937.872,19651.128,PROD572-OTRWWSHDEICER1G-26187,Line 1 – OTR -25 W/Wash
+2026-07-14 03:01:38,Blue Drum 55 Gal,DRUM-MT55,production_consume,-40.0,492.285,PROD573-OTRW255-26187,Line 4 – Drum OTR-25
+2026-07-14 03:01:38,Drum OTR-25 Label,OTRW255-LBL,production_consume,-40.0,8460.0,PROD573-OTRW255-26187,Line 4 – Drum OTR-25
+2026-07-14 13:34:08,Blue Drum 55 Gal,DRUM-MT55,RCV-01,336.0,336.0,"Supplier=, Batch=",
+2026-07-14 13:39:52,Black Antifreeze Bottle,BOT-AF-BLK,RCV-01,12936.0,12936.0,"Supplier=, Batch=",
+2026-07-14 13:41:12,Yellow Oil Bottle,BOT-OIL-QTYL,RCV-01,56628.0,56628.0,"Supplier=, Batch=",
+2026-07-14 13:44:16,Clear F Style Bottle,BOT-F-NAT,RCV-01,13920.0,13920.0,"Supplier=, Batch=",
+2026-07-15 23:21:54,Blue Drum 55 Gal,DRUM-MT55,production_consume,-52.0,284.0,PROD574-OTRW255-26188,Line 4 – Drum OTR-25
+2026-07-15 23:21:54,Drum OTR-25 Label,OTRW255-LBL,production_consume,-52.0,8408.0,PROD574-OTRW255-26188,Line 4 – Drum OTR-25
+2026-07-15 23:23:20,4 Seasons Antifreeze Front Label,LABEL-6155-F,production_consume,-1123.2,16876.8,PROD575-FSAF50-26188,Line 1 – 4 Seasons Antifreeze
+2026-07-15 23:23:20,4 Seasons Antifreeze Back Label,LABEL-6155-B,production_consume,-1123.2,16876.8,PROD575-FSAF50-26188,Line 1 – 4 Seasons Antifreeze
+2026-07-15 23:23:20,Yellow Antifreeze Bottle,BOTTLE-AFYEL,production_consume,-1090.8,7115.04,PROD575-FSAF50-26188,Line 1 – 4 Seasons Antifreeze
+2026-07-15 23:23:20,Yellow Antifreeze Cap,CAP-AFYEL,production_consume,-1090.8,42659.2,PROD575-FSAF50-26188,Line 1 – 4 Seasons Antifreeze
+2026-07-15 23:23:20,Antifreeze Box,BOX-AF-NEW,production_consume,-180.9,6985.3,PROD575-FSAF50-26188,Line 1 – 4 Seasons Antifreeze
+2026-07-15 23:23:48,Yellow Antifreeze Cap,CAP-AFYEL,production_consume,-3727.079999999999,38932.119999999995,PROD576-ATGP50-26188,Line 1 – Green Power 50
+2026-07-15 23:23:48,Green Power 50 Front Label,LABEL-00048-F,production_consume,-3818.88,98181.12,PROD576-ATGP50-26188,Line 1 – Green Power 50
+2026-07-15 23:23:48,Green Power 50 Back Label,LABEL-00048-B,production_consume,-3818.88,98181.12,PROD576-ATGP50-26188,Line 1 – Green Power 50
+2026-07-15 23:23:48,Green Power Box,BOX-GREENPWR,production_consume,-615.06,1365.46,PROD576-ATGP50-26188,Line 1 – Green Power 50
+2026-07-15 23:23:48,Yellow Antifreeze Bottle,BOTTLE-AFYEL,production_consume,-3708.72,3406.3199999999997,PROD576-ATGP50-26188,Line 1 – Green Power 50
+2026-07-15 23:25:14,Blue Drum 55 Gal,DRUM-MT55,production_consume,-40.0,244.0,PROD577-OTRW255-26189,Line 4 – Drum OTR-25
+2026-07-15 23:25:14,Drum OTR-25 Label,OTRW255-LBL,production_consume,-40.0,8368.0,PROD577-OTRW255-26189,Line 4 – Drum OTR-25
+2026-07-15 23:34:36,White Cap,CAP-WH,production_consume,-432.864,383455.904,PROD578-TBDXTREME-26189,Line 1 – Xtreme AF
+2026-07-15 23:34:36,Black Antifreeze Bottle,BOT-AF-BLK,production_consume,-432.432,12503.568,PROD578-TBDXTREME-26189,Line 1 – Xtreme AF
+2026-07-15 23:34:36,xtreme front label,TBDFRONTXTREME,production_consume,-440.64,29559.36,PROD578-TBDXTREME-26189,Line 1 – Xtreme AF
+2026-07-15 23:34:36,xtreme back label,TBDXTREMEBACKLABEL,production_consume,-440.64,29559.36,PROD578-TBDXTREME-26189,Line 1 – Xtreme AF
+2026-07-15 23:34:36,F Style Blank Box,BOX-FSTYLEBLANK,production_consume,-72.07199999999999,19579.056,PROD578-TBDXTREME-26189,Line 1 – Xtreme AF
+2026-07-15 23:36:01,Blue Drum 55 Gal,DRUM-MT55,production_consume,-1.0,243.0,PROD579-ATGP50-55-26189,Line 4 – Drum Green Power -34
+2026-07-15 23:36:01,Drum Green Power -34 Label,LBL-ATGP50-55,production_consume,-1.0,6.0,PROD579-ATGP50-55-26189,Line 4 – Drum Green Power -34
+2026-07-15 23:39:35,RV Antifreeze -50 Label,LBL-45915,production_consume,-5896.8,54103.2,PROD580-ATRE506-26190,Line 3 – RV Antifreeze -50
+2026-07-15 23:39:35,Clear Round Bottle,BOTTLE-RD-NAT,production_consume,-5726.7,0.0,PROD580-ATRE506-26190,Line 3 – RV Antifreeze -50
+2026-07-15 23:39:35,White Cap,CAP-WH,production_consume,-5726.7,377729.204,PROD580-ATRE506-26190,Line 3 – RV Antifreeze -50
+2026-07-15 23:39:35,8Brand Box,BOX-WW/BL,production_consume,-949.725,40991.53,PROD580-ATRE506-26190,Line 3 – RV Antifreeze -50
+2026-07-15 23:41:47,RV Antifreeze -50 Label,LBL-45915,production_consume,-1528.8,52574.399999999994,PROD581-ATRE506-26191,Line 3 – RV Antifreeze -50
+2026-07-15 23:41:47,Clear Round Bottle,BOTTLE-RD-NAT,production_consume,-1484.7,1908.9,PROD581-ATRE506-26191,Line 3 – RV Antifreeze -50
+2026-07-15 23:41:47,White Cap,CAP-WH,production_consume,-1484.7,376244.504,PROD581-ATRE506-26191,Line 3 – RV Antifreeze -50
+2026-07-15 23:41:47,8Brand Box,BOX-WW/BL,production_consume,-246.22499999999997,40745.305,PROD581-ATRE506-26191,Line 3 – RV Antifreeze -50
+2026-07-15 23:42:16,AquaX Label,LBL-45957,production_consume,-1965.6,13034.4,PROD582-ATWWAX-26191,Line 3 – AquaX W/Wash +32
+2026-07-15 23:42:16,Clear Round Bottle,BOTTLE-RD-NAT,production_consume,-1908.9,0.0,PROD582-ATWWAX-26191,Line 3 – AquaX W/Wash +32
+2026-07-15 23:42:16,White Cap,CAP-WH,production_consume,-1908.9,374335.604,PROD582-ATWWAX-26191,Line 3 – AquaX W/Wash +32
+2026-07-15 23:42:16,8Brand Box,BOX-WW/BL,production_consume,-316.575,40428.73,PROD582-ATWWAX-26191,Line 3 – AquaX W/Wash +32
+2026-07-15 23:42:41,White Cap,CAP-WH,production_consume,-865.728,373469.876,PROD583-TBDXTREME-26191,Line 1 – Xtreme AF
+2026-07-15 23:42:41,Black Antifreeze Bottle,BOT-AF-BLK,production_consume,-864.8639999999999,12071.704,PROD583-TBDXTREME-26191,Line 1 – Xtreme AF
+2026-07-15 23:42:41,xtreme front label,TBDFRONTXTREME,production_consume,-881.28,28678.08,PROD583-TBDXTREME-26191,Line 1 – Xtreme AF
+2026-07-15 23:42:41,xtreme back label,TBDXTREMEBACKLABEL,production_consume,-881.28,28678.08,PROD583-TBDXTREME-26191,Line 1 – Xtreme AF
+2026-07-15 23:42:41,F Style Blank Box,BOX-FSTYLEBLANK,production_consume,-144.14399999999998,19434.912,PROD583-TBDXTREME-26191,Line 1 – Xtreme AF
+2026-07-15 23:43:41,Blue Drum 55 Gal,DRUM-MT55,production_consume,-224.0,19.0,PROD584-OTRW255-26191,Line 4 – Drum OTR-25
+2026-07-15 23:43:41,Drum OTR-25 Label,OTRW255-LBL,production_consume,-224.0,8144.0,PROD584-OTRW255-26191,Line 4 – Drum OTR-25
+2026-07-15 23:44:48,Blue Drum 55 Gal,DRUM-MT55,production_consume,-6.0,13.0,PROD585-ATGP50-55-26192,Line 4 – Drum Green Power -34
+2026-07-15 23:44:48,Drum Green Power -34 Label,LBL-ATGP50-55,production_consume,-6.0,0.0,PROD585-ATGP50-55-26192,Line 4 – Drum Green Power -34
+2026-07-15 23:45:02,Blue Drum 55 Gal,DRUM-MT55,production_consume,-6.029999999999999,6.970000000000001,PROD586-ATAB55-26192,Line 4 – Drum DEF
+2026-07-15 23:45:02,DEF Drum Label,TBDDEFDL,production_consume,-6.029999999999999,162.715,PROD586-ATAB55-26192,Line 4 – Drum DEF
+2026-07-15 23:45:18,White Cap,CAP-WH,production_consume,-1298.592,372171.284,PROD587-TBDXTREME-26192,Line 1 – Xtreme AF
+2026-07-15 23:45:18,Black Antifreeze Bottle,BOT-AF-BLK,production_consume,-1297.2959999999998,10774.408,PROD587-TBDXTREME-26192,Line 1 – Xtreme AF
+2026-07-15 23:45:18,xtreme front label,TBDFRONTXTREME,production_consume,-1321.92,27356.160000000003,PROD587-TBDXTREME-26192,Line 1 – Xtreme AF
+2026-07-15 23:45:18,xtreme back label,TBDXTREMEBACKLABEL,production_consume,-1321.92,27356.160000000003,PROD587-TBDXTREME-26192,Line 1 – Xtreme AF
+2026-07-15 23:45:18,F Style Blank Box,BOX-FSTYLEBLANK,production_consume,-216.216,19218.696,PROD587-TBDXTREME-26192,Line 1 – Xtreme AF
+2026-07-15 23:45:47,DEF Cap,CAP-DEF,production_consume,-241.2,64314.0,PROD588-RESD25-26192,Line 5 – Resolute DEF 2.5 Gal classic
+2026-07-15 23:45:47,DEF 2.5 Gal Bottle,BOT-DEF2.5,production_consume,-241.2,2314.0,PROD588-RESD25-26192,Line 5 – Resolute DEF 2.5 Gal classic
+2026-07-15 23:45:47,Resolute DEF 2.5 Gal Box Classic,RESD25-BOX,production_consume,-241.2,22821.6,PROD588-RESD25-26192,Line 5 – Resolute DEF 2.5 Gal classic
+2026-07-15 23:45:47,DEF 2.5 Gal Spout,DEFSPOUT,production_consume,-241.2,3054.0,PROD588-RESD25-26192,Line 5 – Resolute DEF 2.5 Gal classic
+2026-07-15 23:46:25,4 Seasons Oil 5W30 Front Label,LABEL-61110-F,production_consume,-1135.68,94864.32,PROD589-FSMO53-26194,Line 2 – 4 Seasons Oil 5W30
+2026-07-15 23:46:25,4 Seasons Oil 5W30 Back Label,LABEL-61110-B,production_consume,-1135.68,94864.32,PROD589-FSMO53-26194,Line 2 – 4 Seasons Oil 5W30
+2026-07-15 23:46:25,Black Oil Cap,CAP-OIL,production_consume,-1102.92,258097.08,PROD589-FSMO53-26194,Line 2 – 4 Seasons Oil 5W30
+2026-07-15 23:46:25,4 Seasons Oil Box,BOX-4SOIL,production_consume,-91.0,20546.42,PROD589-FSMO53-26194,Line 2 – 4 Seasons Oil 5W30
+2026-07-15 23:46:25,Yellow Oil Bottle,BOT-OIL-QTYL,production_consume,-1097.4599999999998,55530.54,PROD589-FSMO53-26194,Line 2 – 4 Seasons Oil 5W30
+2026-07-15 23:47:37,BugX Label,LBL-45956,production_consume,-1310.4,82689.6,PROD590-ATWWBX-26194,Line 3 – BugX W/Wash +32
+2026-07-15 23:47:37,Clear Round Bottle,BOTTLE-RD-NAT,production_consume,-1272.6,0.0,PROD590-ATWWBX-26194,Line 3 – BugX W/Wash +32
+2026-07-15 23:47:37,White Cap,CAP-WH,production_consume,-1272.6,370898.684,PROD590-ATWWBX-26194,Line 3 – BugX W/Wash +32
+2026-07-15 23:47:37,8Brand Box,BOX-WW/BL,production_consume,-211.05,40217.68,PROD590-ATWWBX-26194,Line 3 – BugX W/Wash +32
+2026-07-15 23:47:49,White Cap,CAP-WH,production_consume,-3895.776,367002.908,PROD591-TBDXTREME-26194,Line 1 – Xtreme AF
+2026-07-15 23:47:49,Black Antifreeze Bottle,BOT-AF-BLK,production_consume,-3891.887999999999,6882.52,PROD591-TBDXTREME-26194,Line 1 – Xtreme AF
+2026-07-15 23:47:49,xtreme front label,TBDFRONTXTREME,production_consume,-3965.76,23390.4,PROD591-TBDXTREME-26194,Line 1 – Xtreme AF
+2026-07-15 23:47:49,xtreme back label,TBDXTREMEBACKLABEL,production_consume,-3965.76,23390.4,PROD591-TBDXTREME-26194,Line 1 – Xtreme AF
+2026-07-15 23:47:49,F Style Blank Box,BOX-FSTYLEBLANK,production_consume,-648.6479999999999,18570.048,PROD591-TBDXTREME-26194,Line 1 – Xtreme AF
+2026-07-15 23:48:35,4 Seasons Oil 5W30 Front Label,LABEL-61110-F,production_consume,-2271.36,92592.96,PROD592-FSMO53-26195,Line 2 – 4 Seasons Oil 5W30
+2026-07-15 23:48:35,4 Seasons Oil 5W30 Back Label,LABEL-61110-B,production_consume,-2271.36,92592.96,PROD592-FSMO53-26195,Line 2 – 4 Seasons Oil 5W30
+2026-07-15 23:48:35,Black Oil Cap,CAP-OIL,production_consume,-2205.84,255891.24,PROD592-FSMO53-26195,Line 2 – 4 Seasons Oil 5W30
+2026-07-15 23:48:35,4 Seasons Oil Box,BOX-4SOIL,production_consume,-182.0,20364.42,PROD592-FSMO53-26195,Line 2 – 4 Seasons Oil 5W30
+2026-07-15 23:48:35,Yellow Oil Bottle,BOT-OIL-QTYL,production_consume,-2194.9199999999996,53335.62,PROD592-FSMO53-26195,Line 2 – 4 Seasons Oil 5W30
+2026-07-15 23:48:44,Yellow Oil Bottle,BOT-OIL-QTYL,production_consume,-2194.9199999999996,51140.7,PROD593-FSMO52-26195,Line 2 – 4 Seasons Oil 5W20
+2026-07-15 23:48:44,4 Seasons Oil 5W20 Front Label,LABEL-61109-F,production_consume,-2271.36,15728.64,PROD593-FSMO52-26195,Line 2 – 4 Seasons Oil 5W20
+2026-07-15 23:48:44,4 Seasons Oil 5W20 Back Label,LABEL-61109-B,production_consume,-2271.36,15728.64,PROD593-FSMO52-26195,Line 2 – 4 Seasons Oil 5W20
+2026-07-15 23:48:44,Black Oil Cap,CAP-OIL,production_consume,-2205.84,253685.4,PROD593-FSMO52-26195,Line 2 – 4 Seasons Oil 5W20
+2026-07-15 23:48:44,4 Seasons Oil Box,BOX-4SOIL,production_consume,-182.0,20182.42,PROD593-FSMO52-26195,Line 2 – 4 Seasons Oil 5W20
+2026-07-15 23:49:39,Yellow Antifreeze Cap,CAP-AFYEL,production_consume,-5480.999999999999,33451.119999999995,PROD594-ATGP50-26195,Line 1 – Green Power 50
+2026-07-15 23:49:39,Green Power 50 Front Label,LABEL-00048-F,production_consume,-5616.0,92565.12,PROD594-ATGP50-26195,Line 1 – Green Power 50
+2026-07-15 23:49:39,Green Power 50 Back Label,LABEL-00048-B,production_consume,-5616.0,92565.12,PROD594-ATGP50-26195,Line 1 – Green Power 50
+2026-07-15 23:49:39,Green Power Box,BOX-GREENPWR,production_consume,-904.5,460.96000000000015,PROD594-ATGP50-26195,Line 1 – Green Power 50
+2026-07-15 23:49:39,Yellow Antifreeze Bottle,BOTTLE-AFYEL,production_consume,-5454.0,0.0,PROD594-ATGP50-26195,Line 1 – Green Power 50
