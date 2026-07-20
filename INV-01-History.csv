@@ -2597,3 +2597,58 @@ Timestamp,Component,ComponentCode,ChangeType,DeltaQty,NewQty,Reference,Notes
 2026-07-15 23:49:39,Green Power 50 Back Label,LABEL-00048-B,production_consume,-5616.0,92565.12,PROD594-ATGP50-26195,Line 1 – Green Power 50
 2026-07-15 23:49:39,Green Power Box,BOX-GREENPWR,production_consume,-904.5,460.96000000000015,PROD594-ATGP50-26195,Line 1 – Green Power 50
 2026-07-15 23:49:39,Yellow Antifreeze Bottle,BOTTLE-AFYEL,production_consume,-5454.0,0.0,PROD594-ATGP50-26195,Line 1 – Green Power 50
+2026-07-16 13:25:35,Yellow Antifreeze Bottle,BOTTLE-AFYEL,RCV-01,13920.0,13920.0,"Supplier=Graham, Batch=",
+2026-07-20 22:48:47,4 Seasons Oil 10W30 Front Label,LABEL-61107-F,production_consume,-2271.36,39728.64,PROD595-FSMO13-26196,Line 2 – 4 Seasons Oil 10W30
+2026-07-20 22:48:47,4 Seasons Oil 10W30 Back Label,LABEL-61107-B,production_consume,-2271.36,39728.64,PROD595-FSMO13-26196,Line 2 – 4 Seasons Oil 10W30
+2026-07-20 22:48:47,Black Oil Cap,CAP-OIL,production_consume,-2205.84,251479.56,PROD595-FSMO13-26196,Line 2 – 4 Seasons Oil 10W30
+2026-07-20 22:48:48,4 Seasons Oil Box,BOX-4SOIL,production_consume,-182.0,20000.42,PROD595-FSMO13-26196,Line 2 – 4 Seasons Oil 10W30
+2026-07-20 22:48:48,Yellow Oil Bottle,BOT-OIL-QTYL,production_consume,-2194.9199999999996,48945.78,PROD595-FSMO13-26196,Line 2 – 4 Seasons Oil 10W30
+2026-07-20 22:48:57,Yellow Oil Bottle,BOT-OIL-QTYL,production_consume,-1097.4599999999998,47848.32,PROD596-FSMO52-26196,Line 2 – 4 Seasons Oil 5W20
+2026-07-20 22:48:57,4 Seasons Oil 5W20 Front Label,LABEL-61109-F,production_consume,-1135.68,14592.96,PROD596-FSMO52-26196,Line 2 – 4 Seasons Oil 5W20
+2026-07-20 22:48:57,4 Seasons Oil 5W20 Back Label,LABEL-61109-B,production_consume,-1135.68,14592.96,PROD596-FSMO52-26196,Line 2 – 4 Seasons Oil 5W20
+2026-07-20 22:48:57,Black Oil Cap,CAP-OIL,production_consume,-1102.92,250376.64,PROD596-FSMO52-26196,Line 2 – 4 Seasons Oil 5W20
+2026-07-20 22:48:57,4 Seasons Oil Box,BOX-4SOIL,production_consume,-91.0,19909.42,PROD596-FSMO52-26196,Line 2 – 4 Seasons Oil 5W20
+2026-07-20 22:50:19,Yellow Antifreeze Cap,CAP-AFYEL,production_consume,-2850.12,30600.999999999996,PROD597-ATGP50-26196,Line 1 – Green Power 50
+2026-07-20 22:50:19,Green Power 50 Front Label,LABEL-00048-F,production_consume,-2920.32,89644.79999999999,PROD597-ATGP50-26196,Line 1 – Green Power 50
+2026-07-20 22:50:19,Green Power 50 Back Label,LABEL-00048-B,production_consume,-2920.32,89644.79999999999,PROD597-ATGP50-26196,Line 1 – Green Power 50
+2026-07-20 22:50:19,Green Power Box,BOX-GREENPWR,production_consume,-470.34,990.62,PROD597-ATGP50-26196,Line 1 – Green Power 50
+2026-07-20 22:50:19,Yellow Antifreeze Bottle,BOTTLE-AFYEL,production_consume,-2836.08,11083.92,PROD597-ATGP50-26196,Line 1 – Green Power 50
+2026-07-20 22:50:34,RV Antifreeze -50 Label,LBL-45915,production_consume,-2402.4,50171.99999999999,PROD598-ATRE506-26196,Line 3 – RV Antifreeze -50
+2026-07-20 22:50:34,Clear Round Bottle,BOTTLE-RD-NAT,production_consume,-2333.1,11586.9,PROD598-ATRE506-26196,Line 3 – RV Antifreeze -50
+2026-07-20 22:50:34,White Cap,CAP-WH,production_consume,-2333.1,364669.808,PROD598-ATRE506-26196,Line 3 – RV Antifreeze -50
+2026-07-20 22:50:34,8Brand Box,BOX-WW/BL,production_consume,-386.9249999999999,39830.755,PROD598-ATRE506-26196,Line 3 – RV Antifreeze -50
+2026-07-20 22:51:15,4 Seasons Oil 10W30 Front Label,LABEL-61107-F,production_consume,-4542.72,35185.92,PROD599-FSMO13-26197,Line 2 – 4 Seasons Oil 10W30
+2026-07-20 22:51:15,4 Seasons Oil 10W30 Back Label,LABEL-61107-B,production_consume,-4542.72,35185.92,PROD599-FSMO13-26197,Line 2 – 4 Seasons Oil 10W30
+2026-07-20 22:51:15,Black Oil Cap,CAP-OIL,production_consume,-4411.68,245964.96,PROD599-FSMO13-26197,Line 2 – 4 Seasons Oil 10W30
+2026-07-20 22:51:15,4 Seasons Oil Box,BOX-4SOIL,production_consume,-364.0,19545.42,PROD599-FSMO13-26197,Line 2 – 4 Seasons Oil 10W30
+2026-07-20 22:51:15,Yellow Oil Bottle,BOT-OIL-QTYL,production_consume,-4389.839999999999,43458.48,PROD599-FSMO13-26197,Line 2 – 4 Seasons Oil 10W30
+2026-07-20 22:51:31,Blue Drum 55 Gal,DRUM-MT55,production_consume,-48.0,288.0,PROD600-OTRW05-26197,Line 4 – Drum OTR-0
+2026-07-20 22:51:31,Drum OTR-0 Label,OTRW05-LBL,production_consume,-48.0,952.0,PROD600-OTRW05-26197,Line 4 – Drum OTR-0
+2026-07-20 22:51:48,Simply Cool Front Label,LBL-99983-F,production_consume,-1797.12,2855.04,PROD601-SADC50-26197,Line 1 – Simply Cool
+2026-07-20 22:51:48,Simply Cool Back Label,LBL-99983-B,production_consume,-1797.12,2855.04,PROD601-SADC50-26197,Line 1 – Simply Cool
+2026-07-20 22:51:48,Yellow Antifreeze Bottle,BOTTLE-AFYEL,production_consume,-1745.28,9338.64,PROD601-SADC50-26197,Line 1 – Simply Cool
+2026-07-20 22:51:48,Yellow Antifreeze Cap,CAP-AFYEL,production_consume,-1745.28,28855.72,PROD601-SADC50-26197,Line 1 – Simply Cool
+2026-07-20 22:51:48,Simply Auto Box,BOX-SIMPLY,production_consume,-290.88,8054.64,PROD601-SADC50-26197,Line 1 – Simply Cool
+2026-07-20 22:52:00,RV Antifreeze -50 Label,LBL-45915,production_consume,-2839.2000000000003,47332.8,PROD602-ATRE506-26197,Line 3 – RV Antifreeze -50
+2026-07-20 22:52:00,Clear Round Bottle,BOTTLE-RD-NAT,production_consume,-2757.3,8829.599999999999,PROD602-ATRE506-26197,Line 3 – RV Antifreeze -50
+2026-07-20 22:52:00,White Cap,CAP-WH,production_consume,-2757.3,361912.508,PROD602-ATRE506-26197,Line 3 – RV Antifreeze -50
+2026-07-20 22:52:00,8Brand Box,BOX-WW/BL,production_consume,-457.275,39373.48,PROD602-ATRE506-26197,Line 3 – RV Antifreeze -50
+2026-07-20 22:52:20,4 Seasons Oil 10W30 Front Label,LABEL-61107-F,production_consume,-1135.68,34050.24,PROD603-FSMO13-26198,Line 2 – 4 Seasons Oil 10W30
+2026-07-20 22:52:20,4 Seasons Oil 10W30 Back Label,LABEL-61107-B,production_consume,-1135.68,34050.24,PROD603-FSMO13-26198,Line 2 – 4 Seasons Oil 10W30
+2026-07-20 22:52:20,Black Oil Cap,CAP-OIL,production_consume,-1102.92,244862.04,PROD603-FSMO13-26198,Line 2 – 4 Seasons Oil 10W30
+2026-07-20 22:52:20,4 Seasons Oil Box,BOX-4SOIL,production_consume,-91.0,19454.42,PROD603-FSMO13-26198,Line 2 – 4 Seasons Oil 10W30
+2026-07-20 22:52:20,Yellow Oil Bottle,BOT-OIL-QTYL,production_consume,-1097.4599999999998,42361.02,PROD603-FSMO13-26198,Line 2 – 4 Seasons Oil 10W30
+2026-07-20 22:52:28,Yellow Oil Bottle,BOT-OIL-QTYL,production_consume,-2194.9199999999996,40166.1,PROD604-FSMO52-26198,Line 2 – 4 Seasons Oil 5W20
+2026-07-20 22:52:28,4 Seasons Oil 5W20 Front Label,LABEL-61109-F,production_consume,-2271.36,12321.6,PROD604-FSMO52-26198,Line 2 – 4 Seasons Oil 5W20
+2026-07-20 22:52:28,4 Seasons Oil 5W20 Back Label,LABEL-61109-B,production_consume,-2271.36,12321.6,PROD604-FSMO52-26198,Line 2 – 4 Seasons Oil 5W20
+2026-07-20 22:52:28,Black Oil Cap,CAP-OIL,production_consume,-2205.84,242656.2,PROD604-FSMO52-26198,Line 2 – 4 Seasons Oil 5W20
+2026-07-20 22:52:28,4 Seasons Oil Box,BOX-4SOIL,production_consume,-182.0,19272.42,PROD604-FSMO52-26198,Line 2 – 4 Seasons Oil 5W20
+2026-07-20 22:52:41,Simply Cool Front Label,LBL-99983-F,production_consume,-2246.4,608.6399999999999,PROD605-SADC50-26198,Line 1 – Simply Cool
+2026-07-20 22:52:41,Simply Cool Back Label,LBL-99983-B,production_consume,-2246.4,608.6399999999999,PROD605-SADC50-26198,Line 1 – Simply Cool
+2026-07-20 22:52:41,Yellow Antifreeze Bottle,BOTTLE-AFYEL,production_consume,-2181.6,7157.039999999999,PROD605-SADC50-26198,Line 1 – Simply Cool
+2026-07-20 22:52:41,Yellow Antifreeze Cap,CAP-AFYEL,production_consume,-2181.6,26674.120000000003,PROD605-SADC50-26198,Line 1 – Simply Cool
+2026-07-20 22:52:41,Simply Auto Box,BOX-SIMPLY,production_consume,-363.6,7691.04,PROD605-SADC50-26198,Line 1 – Simply Cool
+2026-07-20 22:52:52,RV Antifreeze -50 Label,LBL-45915,production_consume,-873.6,46459.2,PROD606-ATRE506-26198,Line 3 – RV Antifreeze -50
+2026-07-20 22:52:52,Clear Round Bottle,BOTTLE-RD-NAT,production_consume,-848.4,7981.199999999999,PROD606-ATRE506-26198,Line 3 – RV Antifreeze -50
+2026-07-20 22:52:52,White Cap,CAP-WH,production_consume,-848.4,361064.1079999999,PROD606-ATRE506-26198,Line 3 – RV Antifreeze -50
+2026-07-20 22:52:52,8Brand Box,BOX-WW/BL,production_consume,-140.7,39232.780000000006,PROD606-ATRE506-26198,Line 3 – RV Antifreeze -50

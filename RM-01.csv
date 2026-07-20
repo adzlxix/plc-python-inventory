@@ -1,5 +1,5 @@
 RM_ID,Date,Supplier,Material Name,Material Code,Material Category,Material State,Container Type,Quantity,Unit,Lot / Batch,PO / BOL #,Inspection Status,Received By,Notes
-RM-00001,12-15-2025,MEG 2,Raw Ethylene Glycol,EG-RAW,Raw Material,Bulk,Tank,7000,Gal,,ORD00002005,Accepted,ASIM,
+RM-00001,12-15-2025,MEG 2,Raw Ethylene Glycol,EG-RAW,Raw Material,Bulk,Tank,9000,Gal,,ORD00002005,Accepted,ASIM,
 RM-00002,12-18-2025,Viking,Methanol,BULK-MET,Raw Material,Bulk,Tank,4425,Gal,,360138,Accepted,Asim,
 RM-00019,01-14-2026,Safety Kleen,Base Oil,BASE-150,Raw Material,Bulk,Tank,10257.62,Gal,,2600220128,Accepted,ASIM,
 RM-00020,01-10-2026,Ergon Fuels,Ethanol,ETHANOL-BULK,Raw Material,Bulk,Tank,5981,Gal,,1351004,Accepted,ASIM,
@@ -27,3 +27,5 @@ RM-00057,06-08-2026,,Methanol,BULK-MET,Raw Material,Full,Tank,6990,Gal,,,Accepte
 RM-00058,06-12-2026,,Methanol,BULK-MET,Raw Material,Full,Tank,6986,Gal,,,Accepted,,0
 RM-00059,06-05-2026,,Charcoal Lighter Fluid,CHAR-GAL,Raw Material,Full,Tank,6700,Gal,,,Accepted,,
 
+RM-00060,07-14-2026,Blue Sky,DEF Bulk,GEF030,Raw Material,Full,Tank,5329.67,Gal,,,Accepted,,
+RM-00061,07-15-2026,Musket,Ethanol,ETHANOL-BULK,Raw Material,Full,Tank,7332,Gal,,,Accepted,,
